@@ -16,13 +16,13 @@ public class InputView {
 
     public List<Integer> inputNumbers() {
         outputView.printLeadInputNumbers();
-        String inputData = Console.readLine();
+        String inputData = Console.readLine().trim();
         return inputValidator.convertNumbers(inputData);
     }
 
     public Retry inputRetry() {
         outputView.printLeadInputRetry();
-        String retryData = Console.readLine();
+        String retryData = Console.readLine().trim();
         return inputValidator.convertRetry(retryData);
     }
 }

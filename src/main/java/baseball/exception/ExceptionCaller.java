@@ -15,7 +15,7 @@ public class ExceptionCaller {
 
     private static String generateErrorMessage(String message) {
         StringBuilder sb = new StringBuilder();
-        sb.append(ExceptionSentence.ERROR_CODE);
+        sb.append(ExceptionSentence.ERROR_CODE.getMessage());
         sb.append(message);
         return sb.toString();
     }
