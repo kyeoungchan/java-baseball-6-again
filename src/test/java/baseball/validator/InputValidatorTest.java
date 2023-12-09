@@ -16,7 +16,7 @@ class InputValidatorTest {
     InputValidator inputValidator = new InputValidator();
 
     @ParameterizedTest
-    @MethodSource("generateData")
+    @MethodSource("generateNumbers")
     @DisplayName("세자리 숫자를 입력하지 않으면 IllegalArgumentException을 던진다.")
     void convertUnvalidatedNumbers(String inputData, String exceptionMessage) {
         assertThatThrownBy(() -> inputValidator.convertNumbers(inputData))
@@ -32,13 +32,40 @@ class InputValidatorTest {
         assertThatNoException().isThrownBy(() -> inputValidator.convertNumbers(inputData));
     }
 
-    private static Stream<Arguments> generateData() {
+    @ParameterizedTest
+    @CsvSource(value = {"1", "2"})
+    @DisplayName("1이나 2를 입력하면 예외가 발생하지 않는다.")
+    void convertValidatedRetry(String inputData) {
+        assertThatNoException().isThrownBy(() -> inputValidator.convertRetry(inputData));
+    }
+
+    @ParameterizedTest
+    @MethodSource("generateRetry")
+    @DisplayName("한자리 숫자를 입력하지 않으면 IllegalArgumentException을 던진다.")
+    void convertUnvalidatedRetry(String inputData, String exceptionMessage) {
+        assertThatThrownBy(() -> inputValidator.convertRetry(inputData))
+                .isExactlyInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> inputValidator.convertRetry(inputData)).hasMessageContaining(ExceptionSentence.ERROR_CODE.getMessage());
+        assertThatThrownBy(() -> inputValidator.convertRetry(inputData)).hasMessageContaining(exceptionMessage);
+    }
+
+    private static Stream<Arguments> generateNumbers() {
         return Stream.of(
                 Arguments.of(null, ExceptionSentence.EMPTY_INPUTTED.getMessage()),
                 Arguments.of("", ExceptionSentence.EMPTY_INPUTTED.getMessage()),
                 Arguments.of("1234", ExceptionSentence.TOO_LONG_INPUTTED.getMessage()),
                 Arguments.of("12", ExceptionSentence.TOO_SHORT_INPUTTED.getMessage()),
                 Arguments.of("abc", ExceptionSentence.NOT_NUMBERS.getMessage())
+        );
+    }
+
+    private static Stream<Arguments> generateRetry() {
+        return Stream.of(
+                Arguments.of(null, ExceptionSentence.EMPTY_INPUTTED.getMessage()),
+                Arguments.of("", ExceptionSentence.EMPTY_INPUTTED.getMessage()),
+                Arguments.of("14", ExceptionSentence.TOO_LONG_INPUTTED.getMessage()),
+                Arguments.of("a", ExceptionSentence.NOT_NUMBERS.getMessage()),
+                Arguments.of("3", ExceptionSentence.NOT_VALIDATED_RETRY_INPUT.getMessage())
         );
     }
 }
