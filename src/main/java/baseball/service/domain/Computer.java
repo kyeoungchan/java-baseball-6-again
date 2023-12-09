@@ -2,8 +2,10 @@ package baseball.service.domain;
 
 import baseball.consts.BallStrike;
 import baseball.consts.NumberIndexes;
+import baseball.consts.ValueConstants;
 import baseball.vo.Numbers;
 import baseball.vo.Result;
+import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -17,6 +19,15 @@ public class Computer {
 
     private List<Integer> generateNumbers() {
         List<Integer> newNumbers = new ArrayList<>();
+        while (newNumbers.size() < ValueConstants.NUMBER_CIPHERS.getValue()) {
+            int randomNumber = Randoms.pickNumberInRange(
+                    ValueConstants.START_INCLUSIVE.getValue(),
+                    ValueConstants.END_INCLUSIVE.getValue()
+            );
+            if (!newNumbers.contains(randomNumber)) {
+                newNumbers.add(randomNumber);
+            }
+        }
         return newNumbers;
     }
 
@@ -41,8 +52,8 @@ public class Computer {
         return ballStrikeResults;
     }
 
-    private void addBallStrike(EnumMap<BallStrike, Integer> ballStrikeResults, BallStrike strike) {
-        ballStrikeResults.put(strike, ballStrikeResults.getOrDefault(strike, 0) + 1);
+    private void addBallStrike(EnumMap<BallStrike, Integer> ballStrikeResults, BallStrike ballStrike) {
+        ballStrikeResults.put(ballStrike, ballStrikeResults.getOrDefault(ballStrike, 0) + 1);
     }
 
     private boolean isStrike(List<Integer> gamePlayerNumbers, List<Integer> computerNumbers, int index) {
