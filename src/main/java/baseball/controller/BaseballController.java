@@ -23,27 +23,36 @@ public class BaseballController {
     }
 
     public void run() {
-        while (true) {
+        do {
+            beforeGame();
             playGame();
-            Retry retry = validatingTemplate(inputView::inputRetry);
-            if (retry.ifContinue()) {
-                break;
-            }
-        }
+        } while (ifRetry());
+    }
+
+    private void beforeGame() {
+        outputView.announceGame();
+        baseballService.startGame();
+    }
+
+    private boolean ifRetry() {
+        Retry retry = validatingTemplate(inputView::inputRetry);
+        return retry.ifContinue();
     }
 
     private void playGame() {
         while (true) {
-            List<Integer> inputNumbers = validatingTemplate(inputView::inputNumbers);
-            Result result = baseballService.play(new Numbers(inputNumbers));
+            Numbers inputNumbers = validatingTemplate(inputView::inputNumbers);
+            Result result = baseballService.play(inputNumbers);
+            outputView.printResult(result);
             if (isThreeStrike(result)) {
+                outputView.printFinalizeGame();
                 break;
             }
         }
     }
 
     private boolean isThreeStrike(Result result) {
-        return result.numbersMatchResult().get(BallStrike.STRIKE)
+        return result.getBallStrikeCount(BallStrike.STRIKE)
                 == ValueConstants.ALL_STRIKE.getValue();
     }
 

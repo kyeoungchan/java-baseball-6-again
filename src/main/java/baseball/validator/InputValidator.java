@@ -25,8 +25,8 @@ public class InputValidator {
 
     private void validateNumbers(String inputData) {
         validateNotEmpty(inputData);
-        validateCiphers(inputData, ValueConstants.NUMBERS_CIPHERS.getValue());
         validateRegex(inputData, PatternRegex.NUMBERS.getRegex());
+        validateCiphers(inputData, ValueConstants.NUMBERS_CIPHERS.getValue());
     }
 
     private void validateNotEmpty(String inputData) {

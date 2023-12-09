@@ -6,12 +6,16 @@ import baseball.vo.Numbers;
 import baseball.vo.Result;
 
 public class BaseballService {
-    private final Computer computer;
+    private Computer computer;
     private final GamePlayer gamePlayer;
 
     public BaseballService(Computer computer, GamePlayer gamePlayer) {
         this.computer = computer;
         this.gamePlayer = gamePlayer;
+    }
+
+    public void startGame() {
+        computer = new Computer();
     }
 
     public Result play(Numbers inputtedNumbers) {

@@ -1,6 +1,7 @@
 package baseball.view;
 
 import baseball.validator.InputValidator;
+import baseball.vo.Numbers;
 import baseball.vo.Retry;
 import camp.nextstep.edu.missionutils.Console;
 import java.util.List;
@@ -14,10 +15,11 @@ public class InputView {
         this.inputValidator = inputValidator;
     }
 
-    public List<Integer> inputNumbers() {
+    public Numbers inputNumbers() {
         outputView.printLeadInputNumbers();
         String inputData = Console.readLine().trim();
-        return inputValidator.convertNumbers(inputData);
+        List<Integer> numbersData = inputValidator.convertNumbers(inputData);
+        return new Numbers(numbersData);
     }
 
     public Retry inputRetry() {

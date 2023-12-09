@@ -8,7 +8,8 @@ public enum ExceptionSentence {
     EMPTY_INPUTTED("입력해주세요.."),
     NOT_NUMBERS("숫자로 입력해주세요."),
     NOT_IN_RANGE("1~9 사이의 숫자만 입력해주시기 바랍니다."),
-    DUPLICATED("숫자는 중복되지 않게 입력해주셔야 합니다.");
+    DUPLICATED("숫자는 중복되지 않게 입력해주셔야 합니다."),
+    UN_EXPECTED("예상치 못한 예외");
 
     private final String message;
 
