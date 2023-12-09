@@ -40,7 +40,6 @@ public class Computer {
         List<Integer> gamePlayerNumbersValue = gamePlayerNumbers.getNumbers();
         List<Integer> computerNumbers = numbers.getNumbers();
 
-
         NumberIndexes.indexes.forEach(i -> {
             if (isStrike(gamePlayerNumbersValue, computerNumbers, i)) {
                 addBallStrike(ballStrikeResults, BallStrike.STRIKE);

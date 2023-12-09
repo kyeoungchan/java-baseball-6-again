@@ -7,6 +7,7 @@ import baseball.view.InputView;
 import baseball.view.OutputView;
 import baseball.vo.Numbers;
 import baseball.vo.Result;
+import baseball.vo.Retry;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -22,6 +23,16 @@ public class BaseballController {
     }
 
     public void run() {
+        while (true) {
+            playGame();
+            Retry retry = validatingTemplate(inputView::inputRetry);
+            if (retry.ifContinue()) {
+                break;
+            }
+        }
+    }
+
+    private void playGame() {
         while (true) {
             List<Integer> inputNumbers = validatingTemplate(inputView::inputNumbers);
             Result result = baseballService.play(new Numbers(inputNumbers));

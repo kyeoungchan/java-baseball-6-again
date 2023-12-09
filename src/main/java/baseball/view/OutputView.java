@@ -10,4 +10,8 @@ public class OutputView {
     public void printLeadInputNumbers() {
         System.out.print(Sentence.INPUT_NUMBERS);
     }
+
+    public void printLeadInputRetry() {
+        System.out.println(Sentence.INPUT_RETRY);
+    }
 }
