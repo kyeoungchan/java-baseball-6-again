@@ -1,7 +1,8 @@
 package baseball.consts;
 
 public enum PatternRegex {
-    NUMBERS("\\d*");
+    NUMBERS("\\d*"),
+    SINGLE_NUMBER("\\d");
 
     private final String regex;
 

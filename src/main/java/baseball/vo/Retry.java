@@ -1,5 +1,9 @@
 package baseball.vo;
 
+import baseball.consts.ExceptionSentence;
+import baseball.exception.ExceptionCaller;
+import java.util.Arrays;
+
 public enum Retry {
     CONTINUE(1) {
         @Override
@@ -20,8 +24,11 @@ public enum Retry {
         this.code = code;
     }
 
-    public boolean kidsOf(int code) {
-        return this.code == code;
+    public static Retry from(int code) {
+        return Arrays.stream(Retry.values())
+                .filter(r -> r.code == code)
+                .findAny()
+                .orElseThrow(() -> ExceptionCaller.throwIllegalArgumentException(ExceptionSentence.NOT_VALIDATED_RETRY_INPUT.getMessage()));
     }
 
     abstract public boolean ifContinue();

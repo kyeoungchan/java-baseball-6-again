@@ -19,7 +19,7 @@ public class Computer {
 
     private List<Integer> generateNumbers() {
         List<Integer> newNumbers = new ArrayList<>();
-        while (newNumbers.size() < ValueConstants.NUMBER_CIPHERS.getValue()) {
+        while (newNumbers.size() < ValueConstants.NUMBERS_CIPHERS.getValue()) {
             int randomNumber = Randoms.pickNumberInRange(
                     ValueConstants.START_INCLUSIVE.getValue(),
                     ValueConstants.END_INCLUSIVE.getValue()

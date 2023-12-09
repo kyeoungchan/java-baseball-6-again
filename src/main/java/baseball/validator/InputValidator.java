@@ -14,15 +14,19 @@ import java.util.regex.Pattern;
 public class InputValidator {
 
     public List<Integer> convertNumbers(String inputData) {
-        List<Integer> result = new ArrayList<>(ValueConstants.NUMBER_CIPHERS.getValue());
-        validateNotEmpty(inputData);
-        validateCiphers(inputData);
+        List<Integer> result = new ArrayList<>(ValueConstants.NUMBERS_CIPHERS.getValue());
         validateNumbers(inputData);
         Arrays.stream(inputData.split(""))
                 .map(Integer::parseInt)
                 .forEach(result::add);
 
         return result;
+    }
+
+    private void validateNumbers(String inputData) {
+        validateNotEmpty(inputData);
+        validateCiphers(inputData, ValueConstants.NUMBERS_CIPHERS.getValue());
+        validateRegex(inputData, PatternRegex.NUMBERS.getRegex());
     }
 
     private void validateNotEmpty(String inputData) {
@@ -33,30 +37,30 @@ public class InputValidator {
         }
     }
 
-    private void validateCiphers(String inputData) {
+    private void validateCiphers(String inputData, int ciphers) {
         int dataLength = inputData.length();
-        validateTooLongCiphers(dataLength);
-        validateTooShortCiphers(dataLength);
+        validateTooLongCiphers(dataLength, ciphers);
+        validateTooShortCiphers(dataLength, ciphers);
     }
 
-    private void validateTooLongCiphers(int dataLength) {
-        if (dataLength > ValueConstants.NUMBER_CIPHERS.getValue()) {
+    private void validateTooLongCiphers(int dataLength, int ciphers) {
+        if (dataLength > ciphers) {
             throw ExceptionCaller.throwIllegalArgumentException(
                     ExceptionSentence.TOO_LONG_INPUTTED.getMessage()
             );
         }
     }
 
-    private void validateTooShortCiphers(int dataLength) {
-        if (dataLength < ValueConstants.NUMBER_CIPHERS.getValue()) {
+    private void validateTooShortCiphers(int dataLength, int ciphers) {
+        if (dataLength < ciphers) {
             throw ExceptionCaller.throwIllegalArgumentException(
                     ExceptionSentence.TOO_SHORT_INPUTTED.getMessage()
             );
         }
     }
 
-    private void validateNumbers(String inputData) {
-        Pattern pattern = Pattern.compile(PatternRegex.NUMBERS.getRegex());
+    private void validateRegex(String inputData, String regex) {
+        Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(inputData);
         if (!matcher.matches()) {
             throw ExceptionCaller.throwIllegalArgumentException(
@@ -65,12 +69,15 @@ public class InputValidator {
         }
     }
 
-
     public Retry convertRetry(String retryData) {
+        validateRetry(retryData);
         int inputNumber = Integer.parseInt(retryData);
-        return Arrays.stream(Retry.values())
-                .filter(retry -> retry.kidsOf(inputNumber))
-                .findAny()
-                .orElseThrow(() -> ExceptionCaller.throwIllegalArgumentException(ExceptionSentence.NOT_VALIDATED_RETRY_INPUT.getMessage()));
+        return Retry.from(inputNumber);
+    }
+
+    private void validateRetry(String retryData) {
+        validateNotEmpty(retryData);
+        validateCiphers(retryData, ValueConstants.RETRY_CIPHER.getValue());
+        validateRegex(retryData, PatternRegex.SINGLE_NUMBER.getRegex());
     }
 }

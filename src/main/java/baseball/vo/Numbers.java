@@ -21,7 +21,7 @@ public class Numbers {
 
     private void validateDuplicated(List<Integer> numbers) {
         int trimmedSize = new HashSet<>(numbers).size();
-        if (trimmedSize != ValueConstants.NUMBER_CIPHERS.getValue()) {
+        if (trimmedSize != ValueConstants.NUMBERS_CIPHERS.getValue()) {
             throw ExceptionCaller.throwIllegalArgumentException(ExceptionSentence.DUPLICATED.getMessage());
         }
     }
